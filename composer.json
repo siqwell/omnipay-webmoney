@@ -1,5 +1,5 @@
 {
-    "name": "dercoder/omnipay-webmoney",
+    "name": "siqwell/omnipay-webmoney",
     "type": "library",
     "description": "WebMoney driver for the Omnipay payment processing library",
     "keywords": [
@@ -10,7 +10,7 @@
         "pay",
         "payment"
     ],
-    "homepage": "https://github.com/dercoder/omnipay-webmoney",
+    "homepage": "https://github.com/siqwell/omnipay-webmoney",
     "license": "MIT",
     "autoload": {
         "psr-4": {
@@ -23,10 +23,5 @@
     "require-dev": {
         "omnipay/tests": "~2.0",
         "satooshi/php-coveralls": "1.0.0"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
-        }
     }
 }
