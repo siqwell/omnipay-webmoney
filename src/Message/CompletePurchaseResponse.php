@@ -128,4 +128,33 @@ class CompletePurchaseResponse extends AbstractResponse
             $this->data['LMI_PAYER_WM']
         ));
     }
+    
+    /**
+     * @return void
+     */
+    public function confirm()
+    {
+        $this->exitWith('YES');
+    }
+    
+    /**
+     * @param string $description
+     */
+    public function error($description = null)
+    {
+        $this->exitWith('ERR: ' . $description);
+    }
+    
+    /**
+     * @codeCoverageIgnore
+     *
+     * @param string $result
+     * @param string $description
+     */
+    public function exitWith($result)
+    {
+        header('Content-Type: text/plain; charset=utf-8');
+        echo $result;
+        exit;
+    }
 }
