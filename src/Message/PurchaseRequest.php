@@ -20,7 +20,7 @@ class PurchaseRequest extends AbstractRequest
     public function getHold()
     {
         if ($hold = $this->getParameter('hold')) {
-            return (string) $hold;
+            return (string)$hold;
         }
 
         return '0';

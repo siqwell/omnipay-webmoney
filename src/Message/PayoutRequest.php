@@ -57,7 +57,7 @@ class PayoutRequest extends AbstractRequest
     {
         $requestNumber = $this->getParameter('requestNumber');
 
-        return $requestNumber ? $requestNumber : (string) time();
+        return $requestNumber ? $requestNumber : (string)time();
     }
 
     /**
@@ -86,7 +86,7 @@ class PayoutRequest extends AbstractRequest
      */
     public function getProtectionPeriod()
     {
-        return (int) $this->getParameter('protectionPeriod');
+        return (int)$this->getParameter('protectionPeriod');
     }
 
     /**
@@ -142,7 +142,7 @@ class PayoutRequest extends AbstractRequest
      */
     public function getInvoiceId()
     {
-        return (int) $this->getParameter('invoiceId');
+        return (int)$this->getParameter('invoiceId');
     }
 
     /**
@@ -174,7 +174,7 @@ class PayoutRequest extends AbstractRequest
      */
     public function getOnlyAuth()
     {
-        return (int) $this->getParameter('onlyAuth');
+        return (int)$this->getParameter('onlyAuth');
     }
 
     /**
@@ -196,6 +196,10 @@ class PayoutRequest extends AbstractRequest
         return $this->setParameter('onlyAuth', $value);
     }
 
+    /**
+     * @return string
+     * @throws InvalidRequestException
+     */
     public function getData()
     {
         $this->validate(
@@ -213,7 +217,7 @@ class PayoutRequest extends AbstractRequest
             throw new InvalidRequestException('Invalid currency for this merchant purse');
         }
 
-        $document = new \DOMDocument('1.0', 'utf-8');
+        $document               = new \DOMDocument('1.0', 'utf-8');
         $document->formatOutput = false;
 
         $request = $document->appendChild(
@@ -275,14 +279,19 @@ class PayoutRequest extends AbstractRequest
         return $document->saveXML();
     }
 
+    /**
+     * @param mixed $data
+     *
+     * @return PayoutResponse
+     */
     public function sendData($data)
     {
         $this->httpClient->setConfig(array(
             'curl.options' => array(
-                CURLOPT_CAINFO => $this->getCertificatePath('WMUsedRootCAs.crt'),
-                CURLOPT_SSLCERT => $this->getSslFile(),
-                CURLOPT_SSLKEY => $this->getSslKey(),
-                CURLOPT_SSLVERSION => 1,
+                CURLOPT_CAINFO         => $this->getCertificatePath('WMUsedRootCAs.crt'),
+                CURLOPT_SSLCERT        => $this->getSslFile(),
+                CURLOPT_SSLKEY         => $this->getSslKey(),
+                CURLOPT_SSLVERSION     => 1,
                 CURLOPT_SSL_VERIFYHOST => 2,
                 CURLOPT_SSL_VERIFYPEER => 1,
             ),
@@ -293,16 +302,26 @@ class PayoutRequest extends AbstractRequest
         return $this->createResponse($httpResponse->xml());
     }
 
+    /**
+     * @param $data
+     *
+     * @return PayoutResponse
+     */
     protected function createResponse($data)
     {
         return $this->response = new PayoutResponse($this, $data);
     }
 
+    /**
+     * @param $fileName
+     *
+     * @return bool|string
+     */
     protected function getCertificatePath($fileName)
     {
-        $class = new \ReflectionObject($this);
+        $class     = new \ReflectionObject($this);
         $directory = dirname($class->getFileName());
-        $file = realpath($directory.'/../Certificate/'.$fileName);
+        $file      = realpath($directory . '/../Certificate/' . $fileName);
 
         return $file;
     }

@@ -15,28 +15,50 @@ use Omnipay\Common\Message\RedirectResponseInterface;
  */
 class PurchaseResponse extends AbstractResponse implements RedirectResponseInterface
 {
-    protected $redirect = 'https://merchant.wmtransfer.com/lmi/payment.asp';
+    /**
+     * @var string
+     *
+     * https://merchant.webmoney.ru/lmi/payment.asp
+     * or
+     * https://merchant.wmtransfer.com/lmi/payment.asp
+     */
+    protected $redirect = 'https://merchant.webmoney.ru/lmi/payment.asp';
 
+    /**
+     * @return bool
+     */
     public function isSuccessful()
     {
         return false;
     }
 
+    /**
+     * @return bool
+     */
     public function isRedirect()
     {
         return true;
     }
 
+    /**
+     * @return string
+     */
     public function getRedirectUrl()
     {
         return $this->redirect;
     }
 
+    /**
+     * @return string
+     */
     public function getRedirectMethod()
     {
         return 'POST';
     }
 
+    /**
+     * @return mixed
+     */
     public function getRedirectData()
     {
         return $this->data;

@@ -2,6 +2,7 @@
 
 namespace Omnipay\WebMoney\Message;
 
+use Illuminate\Support\Facades\Log;
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
 use Omnipay\Common\Exception\InvalidResponseException;
@@ -16,10 +17,18 @@ use Omnipay\Common\Exception\InvalidResponseException;
  */
 class CompletePurchaseResponse extends AbstractResponse
 {
+    /**
+     * CompletePurchaseResponse constructor.
+     *
+     * @param RequestInterface $request
+     * @param mixed            $data
+     *
+     * @throws InvalidResponseException
+     */
     public function __construct(RequestInterface $request, $data)
     {
         $this->request = $request;
-        $this->data = $data;
+        $this->data    = $data;
 
         if ($this->getHash() !== $this->calculateHash()) {
             throw new InvalidResponseException('Invalid hash');
@@ -30,51 +39,81 @@ class CompletePurchaseResponse extends AbstractResponse
         }
     }
 
+    /**
+     * @return bool
+     */
     public function isSuccessful()
     {
         return true;
     }
 
+    /**
+     * @return mixed
+     */
     public function getTransactionId()
     {
         return $this->data['LMI_PAYMENT_NO'];
     }
 
+    /**
+     * @return mixed
+     */
     public function getTransactionReference()
     {
         return $this->data['LMI_SYS_TRANS_NO'];
     }
 
+    /**
+     * @return mixed
+     */
     public function getMerchantPurse()
     {
         return $this->data['LMI_PAYEE_PURSE'];
     }
 
+    /**
+     * @return mixed
+     */
     public function getAmount()
     {
         return $this->data['LMI_PAYMENT_AMOUNT'];
     }
 
+    /**
+     * @return mixed
+     */
     public function getCurrency()
     {
         return $this->request->getCurrencyByPurse($this->data['LMI_PAYEE_PURSE']);
     }
 
+    /**
+     * @return bool
+     */
     public function getTestMode()
     {
-        return (bool) $this->getMode();
+        return (bool)$this->getMode();
     }
 
+    /**
+     * @return mixed
+     */
     public function getMode()
     {
         return $this->data['LMI_MODE'];
     }
 
+    /**
+     * @return mixed
+     */
     public function getHash()
     {
         return $this->data['LMI_HASH'];
     }
 
+    /**
+     * @return null|string
+     */
     public function getHashType()
     {
         switch (strlen($this->getHash())) {
@@ -116,19 +155,19 @@ class CompletePurchaseResponse extends AbstractResponse
 
         return strtoupper(hash(
             $hashType,
-            $this->data['LMI_PAYEE_PURSE'].
-            $this->data['LMI_PAYMENT_AMOUNT'].
-            $this->data['LMI_PAYMENT_NO'].
-            $this->data['LMI_MODE'].
-            $this->data['LMI_SYS_INVS_NO'].
-            $this->data['LMI_SYS_TRANS_NO'].
-            $this->data['LMI_SYS_TRANS_DATE'].
-            $this->request->getSecretkey().
-            $this->data['LMI_PAYER_PURSE'].
+            $this->data['LMI_PAYEE_PURSE'] .
+            $this->data['LMI_PAYMENT_AMOUNT'] .
+            $this->data['LMI_PAYMENT_NO'] .
+            $this->data['LMI_MODE'] .
+            $this->data['LMI_SYS_INVS_NO'] .
+            $this->data['LMI_SYS_TRANS_NO'] .
+            $this->data['LMI_SYS_TRANS_DATE'] .
+            $this->request->getSecretkey() .
+            $this->data['LMI_PAYER_PURSE'] .
             $this->data['LMI_PAYER_WM']
         ));
     }
-    
+
     /**
      * @return void
      */
@@ -136,7 +175,7 @@ class CompletePurchaseResponse extends AbstractResponse
     {
         $this->exitWith('YES');
     }
-    
+
     /**
      * @param string $description
      */
@@ -144,7 +183,7 @@ class CompletePurchaseResponse extends AbstractResponse
     {
         $this->exitWith('ERR: ' . $description);
     }
-    
+
     /**
      * @codeCoverageIgnore
      *

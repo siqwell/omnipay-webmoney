@@ -27,12 +27,12 @@ class Gateway extends AbstractGateway
     public function getDefaultParameters()
     {
         return array(
-            'webMoneyId' => '',
+            'webMoneyId'    => '',
             'merchantPurse' => '',
-            'secretKey' => '',
-            'sslFile' => '',
-            'sslKey' => '',
-            'testMode' => false,
+            'secretKey'     => '',
+            'sslFile'       => '',
+            'sslKey'        => '',
+            'testMode'      => false,
         );
     }
 

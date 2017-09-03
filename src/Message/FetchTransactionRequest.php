@@ -12,8 +12,14 @@ namespace Omnipay\WebMoney\Message;
  */
 class FetchTransactionRequest extends AbstractRequest
 {
+    /**
+     * @var string
+     */
     protected $endpoint = 'https://merchant.webmoney.ru/conf/xml/XMLTransGet.asp';
 
+    /**
+     * @return string
+     */
     public function getData()
     {
         $this->validate(
@@ -24,6 +30,7 @@ class FetchTransactionRequest extends AbstractRequest
         );
 
         $document = new \DOMDocument('1.0', 'windows-1251');
+
         $document->formatOutput = false;
 
         $request = $document->appendChild(
@@ -53,6 +60,11 @@ class FetchTransactionRequest extends AbstractRequest
         return $document->saveXML();
     }
 
+    /**
+     * @param mixed $data
+     *
+     * @return FetchTransactionResponse
+     */
     public function sendData($data)
     {
         $httpResponse = $this->httpClient->post($this->endpoint, null, $data)->send();
@@ -60,11 +72,21 @@ class FetchTransactionRequest extends AbstractRequest
         return $this->createResponse($httpResponse->xml());
     }
 
+    /**
+     * @param $data
+     *
+     * @return FetchTransactionResponse
+     */
     protected function createResponse($data)
     {
         return $this->response = new FetchTransactionResponse($this, $data);
     }
 
+    /**
+     * @param $algorithm
+     *
+     * @return string
+     */
     protected function calculateSignature($algorithm)
     {
         return hash(
