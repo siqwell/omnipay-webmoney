@@ -21,7 +21,7 @@ class CompletePurchaseRequest extends AbstractRequest
     {
         $this->validate('secretKey');
 
-        return array(
+        return [
             'LMI_PAYEE_PURSE'         => $this->httpRequest->request->get('LMI_PAYEE_PURSE'),
             'LMI_PAYMENT_AMOUNT'      => $this->httpRequest->request->get('LMI_PAYMENT_AMOUNT'),
             'LMI_PAYMENT_NO'          => $this->httpRequest->request->get('LMI_PAYMENT_NO'),
@@ -49,7 +49,7 @@ class CompletePurchaseRequest extends AbstractRequest
             'LMI_PAYER_IP'            => $this->httpRequest->request->get('LMI_PAYER_IP'),
             'LMI_LANG'                => $this->httpRequest->request->get('LMI_LANG'),
             'LMI_DBLCHK'              => $this->httpRequest->request->get('LMI_DBLCHK'),
-        );
+        ];
     }
 
     /**
