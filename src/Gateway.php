@@ -3,6 +3,10 @@
 namespace Omnipay\WebMoney;
 
 use Omnipay\Common\AbstractGateway;
+use Omnipay\WebMoney\Message\CompletePurchaseRequest;
+use Omnipay\WebMoney\Message\FetchTransactionRequest;
+use Omnipay\WebMoney\Message\PayoutRequest;
+use Omnipay\WebMoney\Message\PurchaseRequest;
 
 /**
  * WebMoney Gateway.
@@ -26,14 +30,15 @@ class Gateway extends AbstractGateway
      */
     public function getDefaultParameters()
     {
-        return array(
+        return [
             'webMoneyId'    => '',
             'merchantPurse' => '',
             'secretKey'     => '',
             'sslFile'       => '',
             'sslKey'        => '',
+            'allowSdp'      => null,
             'testMode'      => false,
-        );
+        ];
     }
 
     /**
@@ -187,7 +192,7 @@ class Gateway extends AbstractGateway
      */
     public function purchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\WebMoney\Message\PurchaseRequest', $parameters);
+        return $this->createRequest(PurchaseRequest::class, $parameters);
     }
 
     /**
@@ -197,7 +202,7 @@ class Gateway extends AbstractGateway
      */
     public function completePurchase(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\WebMoney\Message\CompletePurchaseRequest', $parameters);
+        return $this->createRequest(CompletePurchaseRequest::class, $parameters);
     }
 
     /**
@@ -207,16 +212,16 @@ class Gateway extends AbstractGateway
      */
     public function fetchTransaction(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\WebMoney\Message\FetchTransactionRequest', $parameters);
+        return $this->createRequest(FetchTransactionRequest::class, $parameters);
     }
 
     /**
      * @param array $parameters
      *
-     * @return \Omnipay\WebMoney\Message\FetchTransactionRequest
+     * @return \Omnipay\WebMoney\Message\PayoutRequest
      */
     public function payout(array $parameters = array())
     {
-        return $this->createRequest('\Omnipay\WebMoney\Message\PayoutRequest', $parameters);
+        return $this->createRequest(PayoutRequest::class, $parameters);
     }
 }

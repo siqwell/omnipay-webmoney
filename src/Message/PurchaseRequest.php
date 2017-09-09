@@ -37,6 +37,28 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
+     * Get the allow sdp.
+     *
+     * @return string cancel method
+     */
+    public function getAllowSdp()
+    {
+        return $this->getParameter('allowSdp');
+    }
+
+    /**
+     * Set the allow sdp.
+     *
+     * @param string $value cancel method
+     *
+     * @return self
+     */
+    public function setAllowSdp($value)
+    {
+        return $this->setParameter('allowSdp', $value);
+    }
+
+    /**
      * @return array
      * @throws InvalidRequestException
      */
@@ -57,7 +79,7 @@ class PurchaseRequest extends AbstractRequest
             throw new InvalidRequestException('Invalid currency for this merchant purse');
         }
 
-        return array(
+        $data = [
             'LMI_PAYEE_PURSE'         => $this->getMerchantPurse(),
             'LMI_PAYMENT_AMOUNT'      => $this->getAmount(),
             'LMI_PAYMENT_NO'          => $this->getTransactionId(),
@@ -69,7 +91,13 @@ class PurchaseRequest extends AbstractRequest
             'LMI_FAIL_URL'            => $this->getCancelUrl(),
             'LMI_FAIL_METHOD'         => $this->getCancelMethod(),
             'LMI_HOLD'                => $this->getHold()
-        );
+        ];
+
+        if ($this->getAllowSdp() !== null) {
+            $data['LMI_ALLOW_SDP'] = $this->getAllowSdp();
+        }
+
+        return $data;
     }
 
     /**

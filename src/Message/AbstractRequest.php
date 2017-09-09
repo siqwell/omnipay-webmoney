@@ -11,6 +11,9 @@ namespace Omnipay\WebMoney\Message;
  */
 abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 {
+    /**
+     * @var string
+     */
     protected $endpoint = 'https://w3s.wmtransfer.com/asp/XMLTransCert.asp';
 
     /**
@@ -172,7 +175,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     public function formatMethod($method)
     {
         $method = strtoupper((string) $method);
-        return isset(self::$methodsTable[$method]) ? self::$methodsTable[$method] : '0';
+        return isset(self::$methodsTable[$method]) ? self::$methodsTable[$method] : null;
     }
 
     /**
