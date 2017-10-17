@@ -1,5 +1,5 @@
 {
-    "name": "siqwell/omnipay-webmoney",
+    "name": "dan-leech/omnipay-webmoney",
     "type": "library",
     "description": "WebMoney driver for the Omnipay payment processing library",
     "keywords": [

@@ -59,6 +59,25 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
+     * Set lang
+     *
+     * @return self
+     */
+    public function getLang()
+    {
+        return $this->getParameter('lang');
+    }
+
+    /**
+     * @param string $value interface lang (ru-RU, en-US, vi-VN
+     * @return self
+     */
+    public function setLang($value)
+    {
+        return $this->setParameter('lang', $value);
+    }
+
+    /**
      * @return array
      * @throws InvalidRequestException
      */
@@ -107,6 +126,6 @@ class PurchaseRequest extends AbstractRequest
      */
     public function sendData($data)
     {
-        return $this->response = new PurchaseResponse($this, $data);
+        return $this->response = new PurchaseResponse($this, $data, $this->getLang());
     }
 }
