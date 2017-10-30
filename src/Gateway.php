@@ -186,6 +186,24 @@ class Gateway extends AbstractGateway
     }
 
     /**
+     * @return mixed
+     */
+    public function getAllowSdp()
+    {
+        return $this->getParameter('allowSdp');
+    }
+
+    /**
+     * @param $value
+     *
+     * @return $this
+     */
+    public function setAllowSdp($value)
+    {
+        return $this->setParameter('allowSdp', $value);
+    }
+
+    /**
      * @param array $parameters
      *
      * @return \Omnipay\WebMoney\Message\PurchaseRequest
