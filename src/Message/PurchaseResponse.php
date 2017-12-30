@@ -2,7 +2,6 @@
 
 namespace Omnipay\WebMoney\Message;
 
-use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RedirectResponseInterface;
 
 /**
@@ -45,6 +44,9 @@ class PurchaseResponse extends AbstractResponse implements RedirectResponseInter
      */
     public function getRedirectUrl()
     {
+        if ($this->lang)
+            return $this->redirect . '?lang=' . $this->lang;
+
         return $this->redirect;
     }
 
